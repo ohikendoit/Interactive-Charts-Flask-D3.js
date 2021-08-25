@@ -4,7 +4,7 @@ import json
 app = Flask(__name__)
 
 #Import DataFrame
-PATH_IN = r'static\data\miserables.json'
+PATH_IN = r'static/data/miserables.json'
 
 #Routing to define URL
 @app.route('/')
