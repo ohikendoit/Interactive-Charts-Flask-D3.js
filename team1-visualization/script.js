@@ -19,7 +19,7 @@ var color = d3.scale.category10();
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .ticks(31)
+    .ticks(15)
     .tickSize(10,0)
     .orient("bottom");
 
@@ -48,225 +48,143 @@ var svg = d3.select("#line1").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-var transports;
+var reports;
 
 var data = [
   {
-    "day":1,
-    "bus":72082,
-    "plane":32505,
-    "train":22531,
-    "car":288875
+    "year": 2007,
+    "DCED": 0.020291951,
+    "UNDP-Private-Sector-Strategy-2007": 0.0361934446,
+    "UNDP-Private-Sector-Strategy-2012": 0.0314169125,
+    "UNDP-Private-Sector-Strategy-2016": 0.0006714684,
+    "UNDP-Private-Sector-Strategy-2018": 0.0350867082,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0221212199
   },
   {
-    "day":2,
-    "bus":62185,
-    "plane":41402,
-    "train":22617,
-    "car":288146
+    "year": 2008,
+    "DCED": 0.022419527,
+    "UNDP-Private-Sector-Strategy-2007": 0.0416624941,
+    "UNDP-Private-Sector-Strategy-2012": 0.0329868813,
+    "UNDP-Private-Sector-Strategy-2016": 0.0004725325,
+    "UNDP-Private-Sector-Strategy-2018": 0.0401262674,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0246019848
   },
   {
-    "day":3,
-    "bus":48744,
-    "plane":29084,
-    "train":18553,
-    "car":231808
+    "year": 2009,
+    "DCED": 0.0237735138,
+    "UNDP-Private-Sector-Strategy-2007": 0.0352088052,
+    "UNDP-Private-Sector-Strategy-2012": 0.0321056716,
+    "UNDP-Private-Sector-Strategy-2016": 0.0019624646,
+    "UNDP-Private-Sector-Strategy-2018": 0.0391119149,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0242665109
   },
   {
-    "day":4,
-    "bus":59231,
-    "plane":39349,
-    "train":25046,
-    "car":308349
+    "year": 2010,
+    "DCED": 0.0238007571,
+    "UNDP-Private-Sector-Strategy-2007": 0.037147467,
+    "UNDP-Private-Sector-Strategy-2012": 0.0324884883,
+    "UNDP-Private-Sector-Strategy-2016": 0.0008416573,
+    "UNDP-Private-Sector-Strategy-2018": 0.0399596994,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0239247314
   },
   {
-    "day":5,
-    "bus":68832,
-    "plane":67064,
-    "train":27497,
-    "car":355731
+    "year": 2011,
+    "DCED": 0.0231831599,
+    "UNDP-Private-Sector-Strategy-2007": 0.0363701122,
+    "UNDP-Private-Sector-Strategy-2012": 0.0324208841,
+    "UNDP-Private-Sector-Strategy-2016": 0.0010064769,
+    "UNDP-Private-Sector-Strategy-2018": 0.0422763746,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0253848753
   },
   {
-    "day":6,
-    "bus":145197,
-    "plane":89647,
-    "train":51124,
-    "car":652208
+    "year": 2012,
+    "DCED": 0.023650112,
+    "UNDP-Private-Sector-Strategy-2007": 0.0342823922,
+    "UNDP-Private-Sector-Strategy-2012": 0.0321699101,
+    "UNDP-Private-Sector-Strategy-2016": 0.0012656741,
+    "UNDP-Private-Sector-Strategy-2018": 0.0412159356,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0251234786
   },
   {
-    "day":7,
-    "bus":104725,
-    "plane":48587,
-    "train":41815,
-    "car":508499
+    "year": 2013,
+    "DCED": 0.0250250211,
+    "UNDP-Private-Sector-Strategy-2007": 0.0346085964,
+    "UNDP-Private-Sector-Strategy-2012": 0.0329898914,
+    "UNDP-Private-Sector-Strategy-2016": 0.0009485515,
+    "UNDP-Private-Sector-Strategy-2018": 0.0419427593,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0254680778
   },
   {
-    "day":8,
-    "bus":71491,
-    "plane":46534,
-    "train":26916,
-    "car":339485
+    "year": 2014,
+    "DCED": 0.0255694233,
+    "UNDP-Private-Sector-Strategy-2007": 0.031896028,
+    "UNDP-Private-Sector-Strategy-2012": 0.0311893811,
+    "UNDP-Private-Sector-Strategy-2016": 0.0015004914,
+    "UNDP-Private-Sector-Strategy-2018": 0.0423540989,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0251941554
   },
   {
-    "day":9,
-    "bus":72229,
-    "plane":32163,
-    "train":22552,
-    "car":288979
+    "year": 2015,
+    "DCED": 0.0258569295,
+    "UNDP-Private-Sector-Strategy-2007": 0.0304321291,
+    "UNDP-Private-Sector-Strategy-2012": 0.0322096777,
+    "UNDP-Private-Sector-Strategy-2016": 0.0019243729,
+    "UNDP-Private-Sector-Strategy-2018": 0.0437096514,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0269645161
   },
   {
-    "day":10,
-    "bus":44608,
-    "plane":30452,
-    "train":19714,
-    "car":240972
+    "year": 2016,
+    "DCED": 0.0257385951,
+    "UNDP-Private-Sector-Strategy-2007": 0.0283150894,
+    "UNDP-Private-Sector-Strategy-2012": 0.0331813971,
+    "UNDP-Private-Sector-Strategy-2016": 0.0018711434,
+    "UNDP-Private-Sector-Strategy-2018": 0.0459398953,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0283019923
   },
   {
-    "day":11,
-    "bus":52141,
-    "plane":51324,
-    "train":28292,
-    "car":342089
+    "year": 2017,
+    "DCED": 0.0273287336,
+    "UNDP-Private-Sector-Strategy-2007": 0.0285936739,
+    "UNDP-Private-Sector-Strategy-2012": 0.0345854378,
+    "UNDP-Private-Sector-Strategy-2016": 0.0024717865,
+    "UNDP-Private-Sector-Strategy-2018": 0.0489208225,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0302585411
   },
   {
-    "day":12,
-    "bus":64253,
-    "plane":44481,
-    "train":26551,
-    "car":329592
+    "year": 2018,
+    "DCED": 0.029152143,
+    "UNDP-Private-Sector-Strategy-2007": 0.0272947641,
+    "UNDP-Private-Sector-Strategy-2012": 0.0366151984,
+    "UNDP-Private-Sector-Strategy-2016": 0.0028014159,
+    "UNDP-Private-Sector-Strategy-2018": 0.0528508123,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0329337998
   },
   {
-    "day":13,
-    "bus":105021,
-    "plane":48587,
-    "train":44051,
-    "car":530368
+    "year": 2019,
+    "DCED": 0.0288776696,
+    "UNDP-Private-Sector-Strategy-2007": 0.0286180593,
+    "UNDP-Private-Sector-Strategy-2012": 0.0384871664,
+    "UNDP-Private-Sector-Strategy-2016": 0.0024549477,
+    "UNDP-Private-Sector-Strategy-2018": 0.0552202705,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0347893662
   },
   {
-    "day":14,
-    "bus":92761,
-    "plane":33874,
-    "train":43191,
-    "car":504438
+    "year": 2020,
+    "DCED": 0.0302939846,
+    "UNDP-Private-Sector-Strategy-2007": 0.0280460855,
+    "UNDP-Private-Sector-Strategy-2012": 0.0387403486,
+    "UNDP-Private-Sector-Strategy-2016": 0.0023483863,
+    "UNDP-Private-Sector-Strategy-2018": 0.0563184778,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0358705131
   },
   {
-    "day":15,
-    "bus":71639,
-    "plane":35927,
-    "train":28572,
-    "car":349170
-  },
-  {
-    "day":16,
-    "bus":59083,
-    "plane":61931,
-    "train":24143,
-    "car":313243
-  },
-  {
-    "day":17,
-    "bus":43722,
-    "plane":57826,
-    "train":25411,
-    "car":312202
-  },
-  {
-    "day":18,
-    "bus":54209,
-    "plane":72539,
-    "train":24939,
-    "car":323969
-  },
-  {
-    "day":19,
-    "bus":95124,
-    "plane":106070,
-    "train":34204,
-    "car":462991
-  },
-  {
-    "day":20,
-    "bus":188624,
-    "plane":162185,
-    "train":55596,
-    "car":770299
-  },
-  {
-    "day":21,
-    "bus":200293,
-    "plane":134128,
-    "train":64346,
-    "car":846214
-  },
-  {
-    "day":22,
-    "bus":129836,
-    "plane":106755,
-    "train":48845,
-    "car":629714
-  },
-  {
-    "day":23,
-    "bus":235004,
-    "plane":165949,
-    "train":54177,
-    "car":791542
-  },
-  {
-    "day":24,
-    "bus":134119,
-    "plane":113256,
-    "train":57660,
-    "car":722083
-  },
-  {
-    "day":25,
-    "bus":102805,
-    "plane":83146,
-    "train":46158,
-    "car":570252
-  },
-  {
-    "day":26,
-    "bus":227028,
-    "plane":157395,
-    "train":66926,
-    "car":904218
-  },
-  {
-    "day":27,
-    "bus":234413,
-    "plane":128995,
-    "train":81502,
-    "car":1033348
-  },
-  {
-    "day":28,
-    "bus":216984,
-    "plane":127627,
-    "train":62841,
-    "car":839445
-  },
-  {
-    "day":29,
-    "bus":241503,
-    "plane":194349,
-    "train":87629,
-    "car":1137484
-  },
-  {
-    "day":30,
-    "bus":303984,
-    "plane":237461,
-    "train":102893,
-    "car":1355650
-  },
-  {
-    "day":31,
-    "bus":161741,
-    "plane":114967,
-    "train":86919,
-    "car":1026058
+    "year": 2021,
+    "DCED": 0.0313098488,
+    "UNDP-Private-Sector-Strategy-2007": 0.0308223976,
+    "UNDP-Private-Sector-Strategy-2012": 0.0370627459,
+    "UNDP-Private-Sector-Strategy-2016": 0.0021356228,
+    "UNDP-Private-Sector-Strategy-2018": 0.0540418456,
+    "UNDP-Private-Sector-Strategy-2018-2022": 0.0348219597
   }
 ];
 
@@ -276,7 +194,7 @@ var data = [
     d.day = +d.day;
 
   });
-  transports = color.domain().map(function(name) {
+  reports = color.domain().map(function(name) {
     return {
       name: name,
       values: data.map(function(d) {
@@ -285,7 +203,7 @@ var data = [
     };
   }); 
 
-var bus = transports[0];
+var bus = reports[0];
 var plane = transports[1];
 var train = transports[2];
 var car = transports[3];
