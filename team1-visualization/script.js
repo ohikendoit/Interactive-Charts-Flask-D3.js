@@ -5,7 +5,7 @@ if (navigator.userAgent.search("MSIE") >= 0) {
 } //IE can't animate stroke - needs this disabled.
 
   var ww = $(".wrapper").width();
-  var margin = {top: 20, right: 20, bottom:50, left: 20},
+  var margin = {top: 20, right: 40, bottom:10, left: 70},
     width = ww - margin.right - margin.left,
     height = 360 - margin.top - margin.bottom;
 
@@ -21,6 +21,7 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .ticks(15)
     .tickSize(10,0)
+    .tickFormat(d3.format("d"))
     .orient("bottom");
 
  if (ww < 700 ) {
@@ -28,12 +29,13 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .ticks(5)
     .tickSize(10,0)
+    .tickFormat(d3.format("d"))
     .orient("bottom");
 }
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left");
+    .orient("left")
 
 var line = d3.svg.line()
     .interpolate("cardinal")
@@ -218,10 +220,35 @@ var UNDP_Private_Sector_Strategy_2018_2022 = reports[5];
     d3.min(reports, function(c) { return d3.min(c.values, function(v) { return v.similarity; }); }),
     d3.max(reports, function(c) { return d3.max(c.values, function(v) { return v.similarity; }); })
   ]);
+
+// Add X axis
 svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + 1.05*height + ")")
       .call(xAxis);
+
+// Add Y axis
+svg.append("g")
+      .call(yAxis);
+
+// Add X axis label
+svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("y", height + margin.top + 40)
+      .style('fill', 'white')
+      .style("font-size", "12px")
+      .text("Year of Job Posting Published")
+
+// Add Y axis label
+svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -margin.left+20)
+      .attr("x", -margin.top)
+      .style('fill', 'white')
+      .style("font-size", "12px")
+      .text("Cosine Similarity Value")
 
   var city = svg.selectAll(".city")
       .data(reports)
@@ -294,12 +321,12 @@ function mouseMove() {
             value   = Math.round(x.invert(mouseX)),
             valMap = value-1;  //map day - 1 for proper match (since array indexing starts at 0)
           if (value > 0) {  
-            var yearDCED = data[valMap].DCED;
-            var yearUNDP_Private_Sector_Strategy_2007 = data[valMap].UNDP_Private_Sector_Strategy_2007;
-            var yearUNDP_Private_Sector_Strategy_2012 = data[valMap].UNDP_Private_Sector_Strategy_2012;
-            var yearUNDP_Private_Sector_Strategy_2016 = data[valMap].UNDP_Private_Sector_Strategy_2016;
-            var yearUNDP_Private_Sector_Strategy_2018 = data[valMap].UNDP_Private_Sector_Strategy_2018;
-            var yearUNDP_Private_Sector_Strategy_2018_2022 = data[valMap].UNDP_Private_Sector_Strategy_2018_2022;
+            var yearDCED = data.DCED;
+            var yearUNDP_Private_Sector_Strategy_2007 = data.UNDP_Private_Sector_Strategy_2007;
+            var yearUNDP_Private_Sector_Strategy_2012 = data.UNDP_Private_Sector_Strategy_2012;
+            var yearUNDP_Private_Sector_Strategy_2016 = data.UNDP_Private_Sector_Strategy_2016;
+            var yearUNDP_Private_Sector_Strategy_2018 = data.UNDP_Private_Sector_Strategy_2018;
+            var yearUNDP_Private_Sector_Strategy_2018_2022 = data.UNDP_Private_Sector_Strategy_2018_2022;
           }
         //** Display tool tip
         
@@ -307,7 +334,7 @@ function mouseMove() {
             .style('visibility', 'visible')
             .style("left", (20 + mouseX + "px"))
             .style("top", (mouseY + "px"))
-            .html(value + " December 2015<br/>Buses: <span class='textB'></span><br/>Trains: <span class='textT'></span><br/>Planes: <span class='textP'></span><br/>Cars: <span class='textC'></span>");
+            .html(value + "<br/>DCED: <span class='textA'></span><br/>Private_Sector_Strategy_2007: <span class='textB'></span><br/>Private_Sector_Strategy_2012: <span class='textC'></span><br/>Private_Sector_Strategy_2016: <span class='textD'></span><br/>Private_Sector_Strategy_2018: <span class='textE'></span><br/>Private_Sector_Strategy_2018_2022: <span class='textF'></span>");
             
         handle
           .attr("x", (mouseX + "px"));
@@ -324,12 +351,12 @@ function mouseMove() {
           toolTip.style("left", (mouseX - 140 + "px"));
   }
 //get daily values and print
-            $(".textB").text(yearDCED.toLocaleString()),
-            $(".textP").text(yearUNDP_Private_Sector_Strategy_2007.toLocaleString()),
-            $(".textT").text(yearUNDP_Private_Sector_Strategy_2012.toLocaleString()),
-            $(".textC").text(yearUNDP_Private_Sector_Strategy_2016.toLocaleString());
-            $(".textC").text(yearUNDP_Private_Sector_Strategy_2018.toLocaleString());
-            $(".textC").text(yearUNDP_Private_Sector_Strategy_2018_2022.toLocaleString());
+            $(".textA").text(yearDCED.toLocaleString()),
+            $(".textB").text(yearUNDP_Private_Sector_Strategy_2007.toLocaleString()),
+            $(".textC").text(yearUNDP_Private_Sector_Strategy_2012.toLocaleString()),
+            $(".textD").text(yearUNDP_Private_Sector_Strategy_2016.toLocaleString());
+            $(".textE").text(yearUNDP_Private_Sector_Strategy_2018.toLocaleString());
+            $(".textF").text(yearUNDP_Private_Sector_Strategy_2018_2022.toLocaleString());
     }//end mousemove
 
 function mouseOut() {
