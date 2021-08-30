@@ -10,7 +10,7 @@ if (navigator.userAgent.search("MSIE") >= 0) {
     height = 360 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
-    .range([width, 0]);
+    .range([width, -40]);
 
 var y = d3.scale.linear()
     .range([height, 0]);
@@ -48,7 +48,6 @@ var svg = d3.select("#line1").append("svg")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
 var reports;
 
@@ -255,11 +254,14 @@ svg.append("text")
       .enter().append("g")
       .attr("class", "city");
 
+// Add label to the end of the line
+
+
 var p1 = city.append("path") //Add the 3 coloured lines for transport type
       .attr("class", "transline")
       .attr("id", function(d) { return d.name; }) // ID of transport type
       .attr("d", function(d) { return line(d.values); }); //data of all Y values
- //data function return names.
+  //data function return names.
 
 var handleLine = svg.append("rect")
       .attr("class","line")
